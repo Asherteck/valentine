@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Will You Be My Valentine?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
             background: linear-gradient(135deg, #ffccf9, #ffb6c1);
@@ -10,168 +13,160 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Comic Sans MS', cursive;
+            font-family: 'Comic Sans MS', 'Comic Neue', cursive;
             overflow: hidden;
         }
+
         .card {
             background: white;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
-            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.25);
+            width: 420px;
+            max-width: 90%;
             position: relative;
-            transform: scale(1);
-            transition: transform 0.3s;
         }
-        .card:hover {
-            transform: scale(1.02);
+
+        h1 {
+            color: #ff3366;
         }
+
         .cat {
             font-size: 3rem;
-            margin-bottom: 1rem;
         }
-        h1 {
-            font-size: 2.2rem;
-            color: #ff3366;
-            margin: 1.5rem 0;
+
+        .button-area {
+            position: relative;
+            height: 90px;
+            margin-top: 1.5rem;
         }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+
         button {
-            padding: 0.8rem 2rem;
+            padding: 0.7rem 1.8rem;
             border: none;
             border-radius: 50px;
-            cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            transition: all 0.3s;
+            cursor: pointer;
         }
+
         #yes-btn {
             background: #ff3366;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
         }
-        #yes-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.6);
-        }
+
         #no-btn {
             background: #e0e0e0;
             color: #555;
-            position: relative;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 180px;
-            background: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -90px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
         }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+
         .celebration {
             display: none;
             animation: fadeIn 1.5s;
         }
+
+        img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        /* 💖 FLOATING HEARTS */
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 24px;
+            animation: floatUp linear forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ff3366;
-            border-radius: 50%;
-            animation: fall 5s linear forwards;
-        }
-        @keyframes fall {
-            to { transform: translateY(100vh); }
-        }
     </style>
 </head>
+
 <body>
-    <div class="card" id="proposal-card">
-        <div class="cat">🐱</div>
-        <h1>Chidinma, will you be my valentine?</h1>
-        
-        <div class="buttons">
-            <button id="yes-btn">Yes</button>
-            <div class="tooltip">
-                <button id="no-btn">No</button>
-                <span class="tooltiptext">"No" seems a bit shy 🥺</span>
-            </div>
-        </div>
-        
-        <div id="celebration" class="celebration">
-            <h2>YAY! 🎉</h2>
-            <div style="margin: 1.5rem 0;">
-                <img src="https://i.imgur.com/7mJjF6l.jpg" alt="Celebration" style="max-width: 100%; border-radius: 10px; margin: 10px;">
-                <img src="https://i.imgur.com/5YdJq0B.jpg" alt="Celebration" style="max-width: 100%; border-radius: 10px; margin: 10px;">
-            </div>
-        </div>
+
+<!-- 🎵 LOVE SONG PLAYLIST -->
+<audio id="music" loop></audio>
+
+<div class="card">
+    <div class="cat">🐱</div>
+    <h1>Chidinma, will you be my Valentine? 💖</h1>
+
+    <div class="button-area" id="button-area">
+        <button id="yes-btn">YES 💘</button>
+        <button id="no-btn">NO 🙄</button>
     </div>
 
-    <script>
-        document.getElementById('yes-btn').addEventListener('click', function() {
-            // Hide buttons
-            document.querySelector('.buttons').style.display = 'none';
-            
-            // Show celebration
-            document.getElementById('celebration').style.display = 'block';
-            
-            // Create confetti
-            createConfetti();
-            
-            // Add extra celebration effect
-            document.getElementById('proposal-card').style.transform = 'scale(1.05)';
-            setTimeout(() => {
-                document.getElementById('proposal-card').style.transform = 'scale(1)';
-            }, 500);
-        });
+    <div class="celebration" id="celebration">
+        <h2>YAY!!! 🎉💖</h2>
+        <p style="font-size:1.1rem;">
+            From the moment you came into my life,  
+            everything became brighter, softer, and happier.  
+            Choosing you is one of the best decision  I have ever made.  
+            I love you my Carino, my Valentine 💕
+        </p>
+        <img src="https://i.ibb.co/fdwPcd21/source.gif" alt="Love GIF">
+    </div>
+</div>
 
-        function createConfetti() {
-            const confettiCount = 150;
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = getRandomColor();
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.body.appendChild(confetti);
-                
-                // Remove after animation
-                setTimeout(() => {
-                    document.body.removeChild(confetti);
-                }, 5000);
-            }
-        }
+<script>
+    /* 🎵 LOVE SONGS (ROYALTY FREE) */
+    const songs = [
+        "https://cdn.pixabay.com/download/audio/2022/03/15/audio_6c0e42b6b2.mp3",
+        "https://cdn.pixabay.com/download/audio/2022/10/30/audio_6a7b2b2b50.mp3",
+        "https://cdn.pixabay.com/download/audio/2023/03/06/audio_5e7edc2c6b.mp3"
+    ];
 
-        function getRandomColor() {
-            const colors = ['#ff3366', '#ffcc00', '#33ccff', '#99ff99', '#ff6b6b'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-    </script>
+    const music = document.getElementById("music");
+    music.src = songs[Math.floor(Math.random() * songs.length)];
+
+    const yesBtn = document.getElementById("yes-btn");
+    const noBtn = document.getElementById("no-btn");
+    const area = document.getElementById("button-area");
+
+    function moveNo() {
+        const maxX = area.offsetWidth - noBtn.offsetWidth;
+        const maxY = area.offsetHeight - noBtn.offsetHeight;
+        noBtn.style.left = Math.random() * maxX + "px";
+        noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    yesBtn.addEventListener("click", () => {
+        area.style.display = "none";
+        document.getElementById("celebration").style.display = "block";
+        music.play();
+        hearts();
+    });
+
+    /* 💖 FLOATING HEARTS */
+    function hearts() {
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = "💖";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 7000);
+        }, 300);
+    }
+</script>
+
 </body>
 </html>
